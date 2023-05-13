@@ -16,8 +16,7 @@ allForms = pd.DataFrame.from_dict(
              )
 cik_stripped = cik.lstrip("0")
 
-quarter_end_filings = allForms[allForms.apply(lambda x: x['form'] in ["10-Q", "10-K", "10 K", "10 Q"], axis=1)]
-quarter_end_filings
+interested_forms = allForms[allForms.apply(lambda x: x['form'] in ["10-K", ], axis=1)] # "10-Q", "DEF 14A", "8-K"
 
 def get_textfile_locations(cik_stripped, df):
     """
@@ -33,10 +32,19 @@ def get_textfile_locations(cik_stripped, df):
         print(location)
     return rv
 
-text_file_locations = get_textfile_locations(cik_stripped=cik_stripped, df=quarter_end_filings)
+# text_file_locations = get_textfile_locations(cik_stripped=cik_stripped, df=quarter_end_filings)
 
-# response = requests.get('https://www.sec.gov/Archives/edgar/data/1326801/000132680123000067/0001326801-23-000067.txt', headers=headers)
-# if response.status_code == 200:
-#     with open('test_data.txt', 'wb') as f:
-#         f.write(response.content)
+def primaryDocumentLocation(cik_stripped, row, prefix='https://www.sec.gov/Archives/edgar/data/'):
+    """
+    given the row of dataframe
+    find the location of the primary document
+    """
+    location = prefix + cik_stripped + '/' + row['accessionNumber'].replace('-', '') + '/' + row['primaryDocument']
+    return location
+
+for index, row in interested_forms.iterrows():
+    response = requests.get(primaryDocumentLocation(cik_stripped, row), headers=headers)
+    if response.status_code == 200:
+        with open("./data/" + row['primaryDocument'], 'wb') as f:
+            f.write(response.content)
 
