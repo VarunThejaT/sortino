@@ -1,1 +1,7 @@
 streamlit-chat
+llama_index
+langchain
+openai
+pytesseract
+transformers
+pinecone

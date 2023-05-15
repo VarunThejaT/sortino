@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 from streamlit_chat import message
+import openai_pinecone_query
 
 # message("Interaction with Sortino:")
 
@@ -10,7 +11,8 @@ def setup_query_area():
 
 def query_llm(query):
     # return "testing"
-    return query_berri_ai(query)
+    return openai_pinecone_query.query_openai_pinecone(query)
+    # return query_berri_ai(query)
 
 def query_berri_ai(query):
     """

@@ -3,3 +3,4 @@ langchain
 openai
 pytesseract
 transformers
+pinecone
