@@ -4,4 +4,4 @@ langchain
 openai
 pytesseract
 transformers
-pinecone
+pinecone-client
