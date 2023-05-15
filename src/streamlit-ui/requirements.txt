@@ -5,3 +5,4 @@ openai
 pytesseract
 transformers
 pinecone-client
+python-dotenv
